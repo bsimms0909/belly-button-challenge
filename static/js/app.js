@@ -52,8 +52,6 @@ function buildCharts(sample){
           }
       ];
       
-      let bar = [barData];
-
       let layout = {
           title: title, width:500
       };
@@ -89,9 +87,14 @@ function buildCharts(sample){
 
     // Bubble Layout:
     let  bubble_layout=  {
-        title: title, width : 1200,
-        xaxis: {title: 'OTU ID'},
-        yaxis: {title: 'Sample Values'},
+        title: title, 
+        width : 1200,
+        xaxis: { 
+          title: 'OTU ID'
+        },
+        yaxis: {
+          title: 'Sample Values'
+        },
     };
 
     let bubbGraph = [trace];
@@ -106,4 +109,23 @@ function optionChanged(newSample) {
   buildCharts(newSample);
 };
 
+// Display the sample metadata, i.e., an individual's demographic information.
+// Select the element where you want to display the metadata
+// Display each key-value pair from the metadata JSON object somewhere on the page.
+// Update all the plots when a new sample is selected. 
+  var metadataElement = d3.select("#selDataset");
+
+  // Clear existing metadata
+  metadataElement.html("");
+
+  // Get the metadata for the selected sample
+  Object.entries(selDataset).forEach(([key, value]) => {
+    // Append new HTML elements to display the key-value pairs
+    metadataElement.append("p")
+      .text(`${key}: ${value}`);
+  });
+
+// Additionally, you are welcome to create any layout that you would like for your dashboard
+
+//initialize the dashboard
 init();
