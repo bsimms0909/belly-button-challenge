@@ -23,6 +23,7 @@ function init(){
         };
       let firstSample = sampleNames[0];
         buildCharts(firstSample);
+        buildmetadata(firstSample);
   });
 }
 
@@ -107,24 +108,28 @@ function buildCharts(sample){
 // Create ability for the dropdown box to change values without error:
 function optionChanged(newSample) {
   buildCharts(newSample);
+  buildmetadata(newSample);
 };
 
 // Display the sample metadata, i.e., an individual's demographic information.
 // Select the element where you want to display the metadata
 // Display each key-value pair from the metadata JSON object somewhere on the page.
 // Update all the plots when a new sample is selected. 
-  var metadataElement = d3.select("#selDataset");
+function buildmetadata(sample){
+  d3.json(url).then(data => {
+      let samples = data.metadata;
+      let resultArray = samples.filter(sampleObj => sampleObj.id == sample);
+      let result = resultArray[0];
+  let PANEL = d3.select("#sample-metadata");
 
   // Clear existing metadata
-  metadataElement.html("");
+  PANEL.html("");
 
   // Get the metadata for the selected sample
-  Object.entries(selDataset).forEach(([key, value]) => {
-    // Append new HTML elements to display the key-value pairs
-    metadataElement.append("p")
-      .text(`${key}: ${value}`);
+  for (key in result){
+      PANEL.append("h6").text(`${key}: ${result[key]}`);}
   });
-
+}
 // Additionally, you are welcome to create any layout that you would like for your dashboard
 
 //initialize the dashboard
